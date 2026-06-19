@@ -716,16 +716,57 @@ body {
 }
 
 @media (max-width: 600px) {
-  .portfolio-item {
-    grid-template-columns: 1.5fr 1fr auto;
+  .modal-content {
+    padding: 1.25rem 1rem;
+    width: 94%;
+    max-height: 90vh;
+  }
+  .modal-close-btn {
+    top: 1rem;
+    right: 1rem;
+  }
+  .exchange-rate-banner {
+    font-size: 0.82rem;
+    padding: 0.6rem 0.75rem;
+    margin-bottom: 1rem;
+  }
+  .portfolio-list {
     gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+  .portfolio-item {
+    display: grid;
+    grid-template-areas:
+      "info info info delete"
+      "price qty total total";
+    grid-template-columns: 1fr 1fr 1.2fr 0.5fr;
+    gap: 10px;
+    padding: 0.85rem;
+  }
+  .item-info {
+    grid-area: info;
   }
   .item-price-wrapper {
-    display: none;
+    grid-area: price;
+    display: flex !important;
+  }
+  .item-qty-wrapper {
+    grid-area: qty;
+  }
+  .item-total-wrapper {
+    grid-area: total;
+    align-items: flex-end;
+  }
+  .item-delete-btn {
+    grid-area: delete;
+    justify-self: end;
+    align-self: start;
+    padding: 4px;
   }
   .analysis-metrics-row {
     grid-template-columns: 1fr;
     gap: 0.75rem;
+    padding: 1rem;
   }
 }
 
