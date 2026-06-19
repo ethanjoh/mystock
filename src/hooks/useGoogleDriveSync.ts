@@ -82,8 +82,8 @@ export const useGoogleDriveSync = () => {
     }
   };
 
-  // Login Handler
-  const login = useCallback((runAsMock: boolean) => {
+  // Login Handler (defaults to false for real OAuth)
+  const login = useCallback((runAsMock: boolean = false) => {
     setError(null);
 
     if (runAsMock) {
@@ -156,7 +156,12 @@ export const useGoogleDriveSync = () => {
       return true;
     } catch (err: any) {
       console.error(err);
-      setError(`구글 앱스 스크립트 초기화 실패: ${err.message}`);
+      const isNetworkError = err.message && (err.message.includes('Failed to fetch') || err.message.includes('network error') || err.message.includes('fetch'));
+      if (isNetworkError) {
+        setError('구글 앱스 스크립트 초기화 실패: 구글 앱스 스크립트 웹앱 배포 설정이 "액세스 권한: 모든 사용자(Anyone)"로 되어 있고, 최초 권한 승인(에디터에서 실행 및 허가)이 완료되었는지 확인해 주세요.');
+      } else {
+        setError(`구글 앱스 스크립트 초기화 실패: ${err.message}`);
+      }
       setIsSyncing(false);
       return false;
     }
@@ -213,7 +218,12 @@ export const useGoogleDriveSync = () => {
       return true;
     } catch (err: any) {
       console.error(err);
-      setError(`구글 드라이브 동기화 실패: ${err.message}`);
+      const isNetworkError = err.message && (err.message.includes('Failed to fetch') || err.message.includes('network error') || err.message.includes('fetch'));
+      if (isNetworkError) {
+        setError('구글 드라이브 동기화 실패: 구글 앱스 스크립트 웹앱 배포 설정이 "액세스 권한: 모든 사용자(Anyone)"로 되어 있고, 최초 권한 승인(에디터에서 실행 및 허가)이 완료되었는지 확인해 주세요.');
+      } else {
+        setError(`구글 드라이브 동기화 실패: ${err.message}`);
+      }
       setIsSyncing(false);
       return false;
     }
@@ -258,7 +268,6 @@ export const useGoogleDriveSync = () => {
       }
 
       // Check if user data exists inside returned structure doc.data
-      // doc format in GAS: { _schema: 1, createdAt: "...", updatedAt: "...", data: { watchlist, portfolio } }
       const driveDoc = data.data;
       setIsSyncing(false);
       
@@ -269,7 +278,12 @@ export const useGoogleDriveSync = () => {
       return null;
     } catch (err: any) {
       console.error(err);
-      setError(`구글 드라이브 데이터 로드 실패: ${err.message}`);
+      const isNetworkError = err.message && (err.message.includes('Failed to fetch') || err.message.includes('network error') || err.message.includes('fetch'));
+      if (isNetworkError) {
+        setError('구글 드라이브 데이터 로드 실패: 구글 앱스 스크립트 웹앱 배포 설정이 "액세스 권한: 모든 사용자(Anyone)"로 되어 있고, 최초 권한 승인(에디터에서 실행 및 허가)이 완료되었는지 확인해 주세요.');
+      } else {
+        setError(`구글 드라이브 데이터 로드 실패: ${err.message}`);
+      }
       setIsSyncing(false);
       return null;
     }

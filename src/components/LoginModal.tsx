@@ -3,17 +3,12 @@ import { X, LogIn, Lock } from 'lucide-react';
 
 interface LoginModalProps {
   onClose: () => void;
-  onLogin: (isMock: boolean) => void;
+  onLogin: () => void;
 }
 
 export const LoginModal: React.FC<LoginModalProps> = ({ onClose, onLogin }) => {
   const handleRealLogin = () => {
-    onLogin(false);
-    onClose();
-  };
-
-  const handleMockLogin = () => {
-    onLogin(true);
+    onLogin();
     onClose();
   };
 
@@ -51,27 +46,6 @@ export const LoginModal: React.FC<LoginModalProps> = ({ onClose, onLogin }) => {
           >
             <LogIn size={18} />
             <span style={{ marginLeft: '8px' }}>Google 계정으로 로그인</span>
-          </button>
-
-          <div style={{ margin: '0.5rem 0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>또는</span>
-          </div>
-
-          <button
-            onClick={handleMockLogin}
-            className="portfolio-btn"
-            style={{
-              width: '100%',
-              height: '44px',
-              justifyContent: 'center',
-              background: 'rgba(255,255,255,0.05)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              borderRadius: '8px',
-              fontSize: '0.9rem',
-              cursor: 'pointer'
-            }}
-          >
-            테스트용 모크 로그인
           </button>
         </div>
       </div>
