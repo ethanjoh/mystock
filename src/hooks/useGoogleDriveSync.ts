@@ -104,6 +104,11 @@ export const useGoogleDriveSync = () => {
       return;
     }
 
+    if (!GOOGLE_CLIENT_ID) {
+      setError('Google Client ID가 설정되지 않았습니다. 로컬 개발 환경의 .env 파일 또는 GitHub Repository Secrets 설정을 확인해 주세요.');
+      return;
+    }
+
     try {
       const client = g.accounts.oauth2.initTokenClient({
         client_id: GOOGLE_CLIENT_ID,
