@@ -143,7 +143,7 @@ export const useGoogleDriveSync = () => {
     setError(null);
     try {
       const response = await fetch(`${GAS_URL}?action=init&access_token=${token}`, {
-        method: 'POST',
+        method: 'GET',
       });
       if (!response.ok) {
         throw new Error(`GAS initialization request failed: ${response.statusText}`);
