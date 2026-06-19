@@ -136,9 +136,11 @@ export const useGoogleDriveSync = () => {
     setUserProfile(null);
     setIsMock(false);
     setError(null);
+    setLastSyncTime(null);
     sessionStorage.removeItem('google_drive_sync_access_token');
     sessionStorage.removeItem('google_drive_sync_user_profile');
     sessionStorage.removeItem('google_drive_sync_is_mock');
+    localStorage.removeItem('google_drive_sync_last_sync');
   }, []);
 
   // Initialize GAS Files (action=init)

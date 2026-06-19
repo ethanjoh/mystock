@@ -110,6 +110,12 @@ const App: React.FC = () => {
     logEvent('watchlist_remove', { ticker });
   };
 
+  const handleLogout = () => {
+    googleLogout();
+    setCustomTickers([]);
+    setPortfolio({});
+  };
+
   const handleAddToPortfolio = (ticker: string) => {
     setPortfolio(prev => {
       if (prev[ticker] !== undefined) {
@@ -190,7 +196,7 @@ const App: React.FC = () => {
 
           {/* Login / Logout Button */}
           {userProfile ? (
-            <button onClick={googleLogout} className="portfolio-btn glass logout-btn" style={{ padding: '0.5rem 0.85rem' }}>
+            <button onClick={handleLogout} className="portfolio-btn glass logout-btn" style={{ padding: '0.5rem 0.85rem' }}>
               <LogOut size={16} />
               <span style={{ fontSize: '0.82rem' }}>로그아웃</span>
             </button>
@@ -202,14 +208,16 @@ const App: React.FC = () => {
           )}
 
           {/* My Portfolio Button */}
-          <button 
-            onClick={() => setIsModalOpen(true)}
-            className="portfolio-btn glass"
-            style={{ padding: '0.5rem 0.85rem' }}
-          >
-            <Briefcase size={16} />
-            <span style={{ fontSize: '0.82rem' }}>My Portfolio</span>
-          </button>
+          {userProfile && (
+            <button 
+              onClick={() => setIsModalOpen(true)}
+              className="portfolio-btn glass"
+              style={{ padding: '0.5rem 0.85rem' }}
+            >
+              <Briefcase size={16} />
+              <span style={{ fontSize: '0.82rem' }}>My Portfolio</span>
+            </button>
+          )}
         </div>
       </header>
 
@@ -223,8 +231,8 @@ const App: React.FC = () => {
             ticker={idx.ticker}
             title={idx.title}
             color={idx.color}
-            onAddToPortfolio={handleAddToPortfolio}
-            onRemoveFromPortfolio={handleRemoveFromPortfolio}
+            onAddToPortfolio={userProfile ? handleAddToPortfolio : undefined}
+            onRemoveFromPortfolio={userProfile ? handleRemoveFromPortfolio : undefined}
             isInPortfolio={portfolio[idx.ticker] !== undefined}
           />
         ))}
@@ -237,14 +245,14 @@ const App: React.FC = () => {
             title={ticker}
             color="var(--accent-color)"
             onRemove={() => handleRemoveTicker(ticker)}
-            onAddToPortfolio={handleAddToPortfolio}
-            onRemoveFromPortfolio={handleRemoveFromPortfolio}
+            onAddToPortfolio={userProfile ? handleAddToPortfolio : undefined}
+            onRemoveFromPortfolio={userProfile ? handleRemoveFromPortfolio : undefined}
             isInPortfolio={portfolio[ticker] !== undefined}
           />
         ))}
       </div>
 
-      {isModalOpen && (
+      {userProfile && isModalOpen && (
         <PortfolioModal
           portfolio={portfolio}
           onClose={() => setIsModalOpen(false)}
