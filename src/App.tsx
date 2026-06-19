@@ -156,13 +156,13 @@ const App: React.FC = () => {
         </div>
       )}
 
-      <header className="app-header glass" style={{ padding: '1rem 2rem', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <header className="app-header glass">
+        <div className="header-title-container">
           <LineChart size={32} color="var(--accent-color)" />
           <h1>Global Markets Dashboard</h1>
         </div>
         
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+        <div className="header-actions-container">
           {/* User Profile Badge (Google) */}
           {userProfile && (
             <div className="user-profile-badge glass" style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '4px 10px', borderRadius: '8px', background: 'rgba(255,255,255,0.03)' }}>

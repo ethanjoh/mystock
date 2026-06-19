@@ -91,24 +91,24 @@ export const StockChart: React.FC<StockChartProps> = ({
   }));
 
   return (
-    <div className="chart-card glass" style={{ position: 'relative', height: '440px' }}>
+    <div className="chart-card glass">
       {onRemove && (
         <button onClick={onRemove} className="remove-chart-btn" aria-label="Remove stock chart">
           <X size={16} />
         </button>
       )}
       <div className="chart-header">
-        <div>
+        <div className="chart-header-left">
           <h2 className="chart-title">
             <Activity size={20} color={color} />
-            <span className="title-text" style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', maxWidth: '170px' }}>
+            <span className="title-text chart-title-text">
               {loading ? title : (companyName || title)}
             </span>
             <span className="ticker-label" style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginLeft: '6px', fontWeight: 'normal' }}>
               ({ticker})
             </span>
           </h2>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '4px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '4px', flexWrap: 'wrap' }}>
             <div className="chart-value">
               {loading ? '---' : currentValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </div>
@@ -134,7 +134,7 @@ export const StockChart: React.FC<StockChartProps> = ({
           </div>
         </div>
         
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '8px' }}>
+        <div className="chart-header-right">
           {!loading && !error && (
             <div className={`chart-change ${isPositive ? 'change-positive' : 'change-negative'}`}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
@@ -188,7 +188,7 @@ export const StockChart: React.FC<StockChartProps> = ({
           <div style={{ color: 'var(--text-secondary)' }}>No data available</div>
         ) : (
           <ResponsiveContainer width="100%" height="100%">
-            <ComposedChart barGap="-100%" data={chartData} margin={{ top: 10, right: 0, left: -20, bottom: 0 }}>
+            <ComposedChart barGap="-100%" data={chartData} margin={{ top: 10, right: 8, left: -20, bottom: 0 }}>
               <defs>
                 <linearGradient id={`color-${title}`} x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor={color} stopOpacity={0.3}/>
