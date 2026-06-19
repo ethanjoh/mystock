@@ -26,7 +26,12 @@ export const PortfolioAnalysis: React.FC<PortfolioAnalysisProps> = ({
 
   const fetchHistoricalData = async (ticker: string) => {
     // Fetch 10 years of weekly data
-    const response = await fetch(`/api/finance/chart/${encodeURIComponent(ticker)}?interval=1wk&range=10y`);
+    const isDev = import.meta.env.DEV;
+    const baseUrl = isDev 
+      ? '/api/finance' 
+      : 'https://corsproxy.io/?https://query1.finance.yahoo.com/v8/finance';
+
+    const response = await fetch(`${baseUrl}/chart/${encodeURIComponent(ticker)}?interval=1wk&range=10y`);
     if (!response.ok) {
       throw new Error(`Failed to fetch historical data for ${ticker}`);
     }

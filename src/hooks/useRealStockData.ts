@@ -73,8 +73,13 @@ export const useRealStockData = (ticker: string, range: TimeRange = '5y') => {
     try {
       const { apiRange, apiInterval, sliceCount } = getParams();
       
+      const isDev = import.meta.env.DEV;
+      const baseUrl = isDev 
+        ? '/api/finance' 
+        : 'https://corsproxy.io/?https://query1.finance.yahoo.com/v8/finance';
+
       const response = await fetch(
-        `/api/finance/chart/${encodeURIComponent(ticker)}?interval=${apiInterval}&range=${apiRange}`
+        `${baseUrl}/chart/${encodeURIComponent(ticker)}?interval=${apiInterval}&range=${apiRange}`
       );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
