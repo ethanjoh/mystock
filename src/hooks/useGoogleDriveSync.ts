@@ -11,8 +11,8 @@ export interface DriveData {
   portfolio: { [ticker: string]: number };
 }
 
-const GOOGLE_CLIENT_ID = '199422703221-6t95s4hfen00ndbqlne3i97c543grj3f.apps.googleusercontent.com';
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbzIoxUtSu_IFFIUEB-Fc_QjPh5oAJQOcDIWZp9gETedx8hq_dq21jN9FL5FF6w0A2nw/exec';
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
+const GAS_URL = import.meta.env.VITE_GAS_URL || '';
 
 export const useGoogleDriveSync = () => {
   const [accessToken, setAccessToken] = useState<string | null>(() => {
