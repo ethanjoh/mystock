@@ -30,7 +30,6 @@ const PortfolioItem: React.FC<PortfolioItemProps> = ({
   
   const priceInKRW = isKorean ? currentValue : currentValue * exchangeRate;
   const totalValueInKRW = priceInKRW * quantity;
-  const currencySymbol = isKorean ? 'KRW' : 'USD';
 
   return (
     <div className="portfolio-item glass">
@@ -44,7 +43,10 @@ const PortfolioItem: React.FC<PortfolioItemProps> = ({
       <div className="item-price-wrapper">
         <span className="item-label">Price</span>
         <span className="item-value">
-          {loading ? '---' : `${currentValue.toLocaleString(undefined, { minimumFractionDigits: 2 })} ${currencySymbol}`}
+          {loading ? '---' : (isKorean 
+            ? `₩${Math.round(currentValue).toLocaleString()}` 
+            : `$${currentValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+          )}
         </span>
       </div>
 
