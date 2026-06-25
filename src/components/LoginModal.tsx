@@ -25,7 +25,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ onClose, onLogin }) => {
         </div>
 
         <p className="login-subtitle" style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '2rem', lineHeight: '1.6', textAlign: 'center' }}>
-          구글 계정으로 로그인하여 최근 검색 기록(관심종목)과 현재 포트폴리오 구성을 구글 드라이브에 안전하게 동기화하세요.
+          구글 계정으로 로그인하여 최근 검색 기록(관심종목)과 현재 포트폴리오 구성을 클라우드에 안전하게 동기화하세요.
         </p>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>

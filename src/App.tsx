@@ -4,7 +4,7 @@ import { SearchBar } from './components/SearchBar';
 import { LineChart, Briefcase, Cloud, LogOut, User } from 'lucide-react';
 import { PortfolioModal } from './components/PortfolioModal';
 import { LoginModal } from './components/LoginModal';
-import { useGoogleDriveSync } from './hooks/useGoogleDriveSync';
+import { useFirebaseSync } from './hooks/useFirebaseSync';
 
 const App: React.FC = () => {
   const [customTickers, setCustomTickers] = useState<string[]>(() => {
@@ -25,15 +25,14 @@ const App: React.FC = () => {
     accessToken,
     userProfile,
     isSyncing,
-    error: googleError,
+    error: syncError,
     lastSyncTime,
     login: googleLogin,
     logout: googleLogout,
-    initializeGAS,
-    syncToDrive,
-    loadFromDrive,
+    syncToFirebase,
+    loadFromFirebase,
     logEvent,
-  } = useGoogleDriveSync();
+  } = useFirebaseSync();
 
   // Reference to avoid initial auto-sync during restoration
   const isRestoringRef = useRef(false);
@@ -46,35 +45,32 @@ const App: React.FC = () => {
     localStorage.setItem('portfolio', JSON.stringify(portfolio));
   }, [portfolio]);
 
-  // Google Drive: Check and restore backup once logged in
+  // Firebase: Check and restore backup once logged in
   useEffect(() => {
     if (accessToken) {
       const checkAndRestore = async () => {
         isRestoringRef.current = true;
         try {
-          const initOk = await initializeGAS(accessToken);
-          if (initOk) {
-            const driveData = await loadFromDrive();
-            if (driveData) {
-              const confirmLoad = window.confirm(
-                "구글 드라이브에 기존 백업 데이터가 있습니다. 불러오시겠습니까?\n(취소하면 현재 브라우저 정보로 덮어씁니다.)"
-              );
-              if (confirmLoad) {
-                if (driveData.watchlist) {
-                  setCustomTickers(driveData.watchlist);
-                }
-                if (driveData.portfolio) {
-                  setPortfolio(driveData.portfolio);
-                }
-                alert("구글 드라이브 데이터를 정상적으로 불러왔습니다!");
-              } else {
-                // Overwrite Drive with current local data
-                await syncToDrive(customTickers, portfolio);
+          const driveData = await loadFromFirebase();
+          if (driveData) {
+            const confirmLoad = window.confirm(
+              "클라우드에 기존 백업 데이터가 있습니다. 불러오시겠습니까?\n(취소하면 현재 브라우저 정보로 덮어씁니다.)"
+            );
+            if (confirmLoad) {
+              if (driveData.watchlist) {
+                setCustomTickers(driveData.watchlist);
               }
+              if (driveData.portfolio) {
+                setPortfolio(driveData.portfolio);
+              }
+              alert("클라우드 데이터를 정상적으로 불러왔습니다!");
             } else {
-              // No file exists, sync current local data to Drive
-              await syncToDrive(customTickers, portfolio);
+              // Overwrite Firebase with current local data
+              await syncToFirebase(customTickers, portfolio);
             }
+          } else {
+            // No data exists, sync current local data to Firebase
+            await syncToFirebase(customTickers, portfolio);
           }
         } catch (err) {
           console.error("Backup check failed:", err);
@@ -89,11 +85,11 @@ const App: React.FC = () => {
     }
   }, [accessToken]);
 
-  // Google Drive: Auto-sync on watchlist or portfolio change
+  // Firebase: Auto-sync on watchlist or portfolio change
   useEffect(() => {
     if (accessToken && hasCheckedBackup && !isRestoringRef.current) {
       const timer = setTimeout(() => {
-        syncToDrive(customTickers, portfolio);
+        syncToFirebase(customTickers, portfolio);
       }, 1500);
       return () => clearTimeout(timer);
     }
@@ -156,9 +152,9 @@ const App: React.FC = () => {
 
   return (
     <div className="app-container">
-      {googleError && (
+      {syncError && (
         <div className="error-banner" style={{ backgroundColor: 'rgba(239, 68, 68, 0.15)', border: '1px solid rgba(239, 68, 68, 0.3)', color: '#ef4444', padding: '10px 20px', borderRadius: '8px', marginBottom: '1rem', fontSize: '0.85rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span>{googleError}</span>
+          <span>{syncError}</span>
         </div>
       )}
 
@@ -183,14 +179,14 @@ const App: React.FC = () => {
           {/* Cloud Sync Backup Button */}
           {userProfile && (
             <button 
-              onClick={() => syncToDrive(customTickers, portfolio)}
+              onClick={() => syncToFirebase(customTickers, portfolio)}
               className="portfolio-btn glass sync-btn"
               disabled={isSyncing}
-              title={lastSyncTime ? `마지막 백업: ${lastSyncTime}` : '구글 드라이브에 백업'}
+              title={lastSyncTime ? `마지막 백업: ${lastSyncTime}` : '클라우드에 백업'}
               style={{ padding: '0.5rem 0.85rem' }}
             >
               <Cloud size={16} color={isSyncing ? 'var(--text-secondary)' : '#4285F4'} className={isSyncing ? 'sync-spin' : ''} />
-              <span style={{ fontSize: '0.82rem' }}>{isSyncing ? '백업 중...' : '드라이브 백업'}</span>
+              <span style={{ fontSize: '0.82rem' }}>{isSyncing ? '백업 중...' : '클라우드 백업'}</span>
             </button>
           )}
 
