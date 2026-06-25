@@ -19,7 +19,6 @@ const App: React.FC = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const [hasCheckedBackup, setHasCheckedBackup] = useState(false);
 
   const {
     accessToken,
@@ -45,55 +44,30 @@ const App: React.FC = () => {
     localStorage.setItem('portfolio', JSON.stringify(portfolio));
   }, [portfolio]);
 
-  // Firebase: Check and restore backup once logged in
+  // Firebase: Check and restore backup silently once logged in
   useEffect(() => {
     if (accessToken) {
-      const checkAndRestore = async () => {
+      const restoreBackup = async () => {
         isRestoringRef.current = true;
         try {
           const driveData = await loadFromFirebase();
           if (driveData) {
-            const confirmLoad = window.confirm(
-              "클라우드에 기존 백업 데이터가 있습니다. 불러오시겠습니까?\n(취소하면 현재 브라우저 정보로 덮어씁니다.)"
-            );
-            if (confirmLoad) {
-              if (driveData.watchlist) {
-                setCustomTickers(driveData.watchlist);
-              }
-              if (driveData.portfolio) {
-                setPortfolio(driveData.portfolio);
-              }
-              alert("클라우드 데이터를 정상적으로 불러왔습니다!");
-            } else {
-              // Overwrite Firebase with current local data
-              await syncToFirebase(customTickers, portfolio);
+            if (driveData.watchlist) {
+              setCustomTickers(driveData.watchlist);
             }
-          } else {
-            // No data exists, sync current local data to Firebase
-            await syncToFirebase(customTickers, portfolio);
+            if (driveData.portfolio) {
+              setPortfolio(driveData.portfolio);
+            }
           }
         } catch (err) {
-          console.error("Backup check failed:", err);
+          console.error("Backup restore failed:", err);
         } finally {
-          setHasCheckedBackup(true);
           isRestoringRef.current = false;
         }
       };
-      checkAndRestore();
-    } else {
-      setHasCheckedBackup(false);
+      restoreBackup();
     }
   }, [accessToken]);
-
-  // Firebase: Auto-sync on watchlist or portfolio change
-  useEffect(() => {
-    if (accessToken && hasCheckedBackup && !isRestoringRef.current) {
-      const timer = setTimeout(() => {
-        syncToFirebase(customTickers, portfolio);
-      }, 1500);
-      return () => clearTimeout(timer);
-    }
-  }, [customTickers, portfolio, accessToken, hasCheckedBackup]);
 
   const handleAddTicker = (ticker: string) => {
     if (customTickers.includes(ticker)) return;
@@ -110,6 +84,13 @@ const App: React.FC = () => {
     googleLogout();
     setCustomTickers([]);
     setPortfolio({});
+  };
+
+  const handleManualBackup = async () => {
+    const ok = await syncToFirebase(customTickers, portfolio);
+    if (ok) {
+      alert("클라우드 백업이 정상적으로 완료되었습니다!");
+    }
   };
 
   const handleAddToPortfolio = (ticker: string) => {
@@ -179,7 +160,7 @@ const App: React.FC = () => {
           {/* Cloud Sync Backup Button */}
           {userProfile && (
             <button 
-              onClick={() => syncToFirebase(customTickers, portfolio)}
+              onClick={handleManualBackup}
               className="portfolio-btn glass sync-btn"
               disabled={isSyncing}
               title={lastSyncTime ? `마지막 백업: ${lastSyncTime}` : '클라우드에 백업'}
