@@ -16,23 +16,19 @@ export interface DriveData {
 
 export const useFirebaseSync = () => {
   const [isMock, setIsMock] = useState<boolean>(() => {
-    return sessionStorage.getItem('google_drive_sync_is_mock') === 'true';
+    return localStorage.getItem('google_drive_sync_is_mock') === 'true';
   });
 
   const [accessToken, setAccessToken] = useState<string | null>(() => {
-    const mockState = sessionStorage.getItem('google_drive_sync_is_mock') === 'true';
-    return mockState ? sessionStorage.getItem('google_drive_sync_access_token') : null;
+    return localStorage.getItem('google_drive_sync_access_token');
   });
 
   const [userProfile, setUserProfile] = useState<UserProfile | null>(() => {
-    const mockState = sessionStorage.getItem('google_drive_sync_is_mock') === 'true';
-    if (mockState) {
-      const saved = sessionStorage.getItem('google_drive_sync_user_profile');
-      return saved ? JSON.parse(saved) : null;
-    }
-    return null;
+    const saved = localStorage.getItem('google_drive_sync_user_profile');
+    return saved ? JSON.parse(saved) : null;
   });
 
+  const [isAuthInitialized, setIsAuthInitialized] = useState<boolean>(false);
   const [isSyncing, setIsSyncing] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   
@@ -43,28 +39,29 @@ export const useFirebaseSync = () => {
   // Persist session state
   useEffect(() => {
     if (accessToken) {
-      sessionStorage.setItem('google_drive_sync_access_token', accessToken);
+      localStorage.setItem('google_drive_sync_access_token', accessToken);
     } else {
-      sessionStorage.removeItem('google_drive_sync_access_token');
+      localStorage.removeItem('google_drive_sync_access_token');
     }
   }, [accessToken]);
 
   useEffect(() => {
     if (userProfile) {
-      sessionStorage.setItem('google_drive_sync_user_profile', JSON.stringify(userProfile));
+      localStorage.setItem('google_drive_sync_user_profile', JSON.stringify(userProfile));
     } else {
-      sessionStorage.removeItem('google_drive_sync_user_profile');
+      localStorage.removeItem('google_drive_sync_user_profile');
     }
   }, [userProfile]);
 
   useEffect(() => {
-    sessionStorage.setItem('google_drive_sync_is_mock', String(isMock));
+    localStorage.setItem('google_drive_sync_is_mock', String(isMock));
   }, [isMock]);
 
   // Firebase Auth State Listener
   useEffect(() => {
     if (!isFirebaseConfigured || !auth) {
       console.warn("Firebase is not configured. Running useFirebaseSync in local mock fallback mode.");
+      setIsAuthInitialized(true);
       return;
     }
 
@@ -79,12 +76,14 @@ export const useFirebaseSync = () => {
         setIsMock(false);
       } else {
         // Only clear if we are not running as mock
-        if (!sessionStorage.getItem('google_drive_sync_is_mock') || sessionStorage.getItem('google_drive_sync_is_mock') !== 'true') {
+        const mockSaved = localStorage.getItem('google_drive_sync_is_mock') === 'true';
+        if (!mockSaved) {
           setAccessToken(null);
           setUserProfile(null);
           setIsMock(false);
         }
       }
+      setIsAuthInitialized(true);
     });
 
     return () => unsubscribe();
@@ -103,6 +102,7 @@ export const useFirebaseSync = () => {
         email: 'test@gmail.com',
         picture: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80',
       });
+      localStorage.setItem('google_drive_sync_login_time', String(Date.now()));
       return;
     }
 
@@ -117,6 +117,7 @@ export const useFirebaseSync = () => {
         picture: user.photoURL || 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y',
       });
       setIsMock(false);
+      localStorage.setItem('google_drive_sync_login_time', String(Date.now()));
     } catch (err: any) {
       console.error(err);
       setError(`구글 로그인 실패: ${err.message}`);
@@ -127,9 +128,10 @@ export const useFirebaseSync = () => {
   const logout = useCallback(async () => {
     setError(null);
     setLastSyncTime(null);
-    sessionStorage.removeItem('google_drive_sync_access_token');
-    sessionStorage.removeItem('google_drive_sync_user_profile');
-    sessionStorage.removeItem('google_drive_sync_is_mock');
+    localStorage.removeItem('google_drive_sync_access_token');
+    localStorage.removeItem('google_drive_sync_user_profile');
+    localStorage.removeItem('google_drive_sync_is_mock');
+    localStorage.removeItem('google_drive_sync_login_time');
     localStorage.removeItem('google_drive_sync_last_sync');
 
     setAccessToken(null);
@@ -144,6 +146,19 @@ export const useFirebaseSync = () => {
       }
     }
   }, []);
+
+  // Check session expiration (30 days) on mount
+  useEffect(() => {
+    const loginTimeStr = localStorage.getItem('google_drive_sync_login_time');
+    if (loginTimeStr) {
+      const loginTime = parseInt(loginTimeStr, 10);
+      const now = Date.now();
+      if (now - loginTime > 30 * 24 * 60 * 60 * 1000) {
+        console.log("Session expired (30 days limit). Logging out...");
+        logout();
+      }
+    }
+  }, [logout]);
 
   // Sync watchlist & portfolio to Firestore (or local mock file)
   const syncToFirebase = async (watchlist: string[], portfolio: { [ticker: string]: number }): Promise<boolean> => {
@@ -260,6 +275,7 @@ export const useFirebaseSync = () => {
     userProfile,
     isMock,
     isSyncing,
+    isAuthInitialized,
     error,
     lastSyncTime,
     login,

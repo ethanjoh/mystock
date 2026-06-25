@@ -24,6 +24,7 @@ const App: React.FC = () => {
     accessToken,
     userProfile,
     isSyncing,
+    isAuthInitialized,
     error: syncError,
     lastSyncTime,
     login: googleLogin,
@@ -44,9 +45,9 @@ const App: React.FC = () => {
     localStorage.setItem('portfolio', JSON.stringify(portfolio));
   }, [portfolio]);
 
-  // Firebase: Check and restore backup silently once logged in
+  // Firebase: Check and restore backup silently once logged in and Auth is initialized
   useEffect(() => {
-    if (accessToken) {
+    if (accessToken && isAuthInitialized) {
       const restoreBackup = async () => {
         isRestoringRef.current = true;
         try {
@@ -67,7 +68,7 @@ const App: React.FC = () => {
       };
       restoreBackup();
     }
-  }, [accessToken]);
+  }, [accessToken, isAuthInitialized]);
 
   const handleAddTicker = (ticker: string) => {
     if (customTickers.includes(ticker)) return;
