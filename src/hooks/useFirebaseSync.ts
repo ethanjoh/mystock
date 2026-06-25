@@ -15,17 +15,22 @@ export interface DriveData {
 }
 
 export const useFirebaseSync = () => {
+  const [isMock, setIsMock] = useState<boolean>(() => {
+    return sessionStorage.getItem('google_drive_sync_is_mock') === 'true';
+  });
+
   const [accessToken, setAccessToken] = useState<string | null>(() => {
-    return sessionStorage.getItem('google_drive_sync_access_token');
+    const mockState = sessionStorage.getItem('google_drive_sync_is_mock') === 'true';
+    return mockState ? sessionStorage.getItem('google_drive_sync_access_token') : null;
   });
 
   const [userProfile, setUserProfile] = useState<UserProfile | null>(() => {
-    const saved = sessionStorage.getItem('google_drive_sync_user_profile');
-    return saved ? JSON.parse(saved) : null;
-  });
-
-  const [isMock, setIsMock] = useState<boolean>(() => {
-    return sessionStorage.getItem('google_drive_sync_is_mock') === 'true';
+    const mockState = sessionStorage.getItem('google_drive_sync_is_mock') === 'true';
+    if (mockState) {
+      const saved = sessionStorage.getItem('google_drive_sync_user_profile');
+      return saved ? JSON.parse(saved) : null;
+    }
+    return null;
   });
 
   const [isSyncing, setIsSyncing] = useState<boolean>(false);
