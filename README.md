@@ -4,6 +4,8 @@
 
 유려한 다크 모드 기반의 **Glassmorphism CSS 디자인**이 적용되어 있어 직관적이고 완성도 높은 사용자 경험을 제공합니다.
 
+![Dashboard Screenshot](./public/screenshot.png)
+
 ---
 
 ## 🌟 핵심 기능 (Key Features)
