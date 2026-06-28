@@ -1,3 +1,4 @@
+[![GitHub 릴리스](https://img.shields.io/github/v/release/ethanjoh/mystock)](https://github.com/ethanjoh/mystock/releases)
 # Global Markets & Stock Portfolio Dashboard (My Stock)
 
 실시간 전세계 시장 지수 및 개별 주식(미국, KOSPI, KOSDAQ)의 시세 확인과 모니터링을 제공하며, Google 로그인 및 Firebase 클라우드 동기화를 통해 나의 포트폴리오 자산을 체계적으로 관리하고 과거 10개년 데이터 기반의 포트폴리오 백테스팅 시뮬레이션을 수행할 수 있는 프리미엄 금융 대시보드 웹 애플리케이션입니다.
