@@ -18,6 +18,7 @@ const CustomTooltip = ({ active, payload, label, chartType, ticker }: any) => {
   if (active && payload && payload.length) {
     const data = payload[0].payload;
     const isKoreanMarket = ticker.endsWith('.KS') || ticker.endsWith('.KQ') || ticker === '^KS11' || ticker === '^KQ11';
+    const isKoreanMarketOrFX = isKoreanMarket || ticker.includes('KRW');
     
     if (chartType === 'candle') {
       const isUp = data.close >= data.open;
@@ -25,14 +26,20 @@ const CustomTooltip = ({ active, payload, label, chartType, ticker }: any) => {
       const downColor = isKoreanMarket ? 'var(--color-kospi)' : 'var(--color-sp500)';
       const colorStyle = { color: isUp ? upColor : downColor, fontWeight: 700 };
 
+      const formatVal = (val: number) => {
+        return isKoreanMarketOrFX 
+          ? Math.round(val).toLocaleString() 
+          : val.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      };
+
       return (
         <div className="custom-tooltip">
           <p className="label">{label}</p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '0.85rem' }}>
-            <div>Open: <span style={{ fontWeight: 600 }}>{data.open.toLocaleString()}</span></div>
-            <div>High: <span style={{ fontWeight: 600, color: 'var(--color-nasdaq)' }}>{data.high.toLocaleString()}</span></div>
-            <div>Low: <span style={{ fontWeight: 600, color: 'var(--color-sp500)' }}>{data.low.toLocaleString()}</span></div>
-            <div>Close: <span style={colorStyle}>{data.close.toLocaleString()}</span></div>
+            <div>Open: <span style={{ fontWeight: 600 }}>{formatVal(data.open)}</span></div>
+            <div>High: <span style={{ fontWeight: 600, color: 'var(--color-nasdaq)' }}>{formatVal(data.high)}</span></div>
+            <div>Low: <span style={{ fontWeight: 600, color: 'var(--color-sp500)' }}>{formatVal(data.low)}</span></div>
+            <div>Close: <span style={colorStyle}>{formatVal(data.close)}</span></div>
           </div>
         </div>
       );
@@ -42,7 +49,9 @@ const CustomTooltip = ({ active, payload, label, chartType, ticker }: any) => {
       <div className="custom-tooltip">
         <p className="label">{label}</p>
         <p className="value" style={{ color: payload[0].color || 'var(--accent-color)' }}>
-          {payload[0].value.toFixed(2)}
+          {isKoreanMarketOrFX 
+            ? Math.round(payload[0].value).toLocaleString() 
+            : payload[0].value.toFixed(2)}
         </p>
       </div>
     );
@@ -63,6 +72,7 @@ export const StockChart: React.FC<StockChartProps> = ({
   const [selectedRange, setSelectedRange] = useState<TimeRange>('5y');
   const [chartType, setChartType] = useState<'line' | 'candle'>('line');
   const { data, currentValue, change, loading, error, companyName } = useRealStockData(ticker, selectedRange);
+  const isKoreanMarketOrFX = ticker.endsWith('.KS') || ticker.endsWith('.KQ') || ticker === '^KS11' || ticker === '^KQ11' || ticker.includes('KRW');
   
   const isPositive = change >= 0;
   const changePercentage = currentValue !== 0 ? (change / (currentValue - change)) * 100 : 0;
@@ -110,7 +120,7 @@ export const StockChart: React.FC<StockChartProps> = ({
           </h2>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '4px', flexWrap: 'wrap' }}>
             <div className="chart-value">
-              {loading ? '---' : currentValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              {loading ? '---' : currentValue.toLocaleString(undefined, isKoreanMarketOrFX ? { maximumFractionDigits: 0 } : { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </div>
             {onAddToPortfolio && !loading && !error && (
               isInPortfolio ? (
@@ -139,7 +149,7 @@ export const StockChart: React.FC<StockChartProps> = ({
             <div className={`chart-change ${isPositive ? 'change-positive' : 'change-negative'}`}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                 {isPositive ? <TrendingUp size={20} /> : <TrendingDown size={20} />}
-                <span>{isPositive ? '+' : ''}{change.toFixed(2)} ({isPositive ? '+' : ''}{changePercentage.toFixed(2)}%)</span>
+                <span>{isPositive ? '+' : ''}{change.toFixed(isKoreanMarketOrFX ? 0 : 2)} ({isPositive ? '+' : ''}{changePercentage.toFixed(2)}%)</span>
               </div>
             </div>
           )}

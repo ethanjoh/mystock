@@ -39,13 +39,13 @@ export const ExchangeRateBar: React.FC<ExchangeRateBarProps> = ({ onRateClick })
         ) : (
           <div className="rate-values">
             <span className="rate-price">
-              {usdValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}원
+              {usdValue.toLocaleString(undefined, { maximumFractionDigits: 0 })}원
             </span>
             <span className={`rate-change ${isUsdPositive ? 'change-positive' : 'change-negative'}`}>
               {isUsdPositive ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
               <span>
                 {isUsdPositive ? '+' : ''}
-                {usdChange.toFixed(2)} ({isUsdPositive ? '+' : ''}
+                {usdChange.toFixed(0)} ({isUsdPositive ? '+' : ''}
                 {usdPercentage.toFixed(2)}%)
               </span>
             </span>
@@ -65,13 +65,13 @@ export const ExchangeRateBar: React.FC<ExchangeRateBarProps> = ({ onRateClick })
         ) : (
           <div className="rate-values">
             <span className="rate-price">
-              {jpyValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}원
+              {jpyValue.toLocaleString(undefined, { maximumFractionDigits: 0 })}원
             </span>
             <span className={`rate-change ${isJpyPositive ? 'change-positive' : 'change-negative'}`}>
               {isJpyPositive ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
               <span>
                 {isJpyPositive ? '+' : ''}
-                {jpyChange.toFixed(2)} ({isJpyPositive ? '+' : ''}
+                {jpyChange.toFixed(0)} ({isJpyPositive ? '+' : ''}
                 {jpyPercentage.toFixed(2)}%)
               </span>
             </span>

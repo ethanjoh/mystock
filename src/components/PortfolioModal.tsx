@@ -110,7 +110,7 @@ export const PortfolioModal: React.FC<PortfolioModalProps> = ({
             </div>
 
             <div className="exchange-rate-banner glass">
-              <span>Exchange Rate: 1 USD = <strong>{exchangeRate.toLocaleString(undefined, { minimumFractionDigits: 2 })} KRW</strong></span>
+              <span>Exchange Rate: 1 USD = <strong>{exchangeRate.toLocaleString(undefined, { maximumFractionDigits: 0 })} KRW</strong></span>
             </div>
 
             {Object.keys(portfolio).length === 0 ? (
