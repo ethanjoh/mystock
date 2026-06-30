@@ -429,6 +429,9 @@ body {
   flex-direction: column;
   position: relative;
   overflow-y: auto;
+  background: #1e293b;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
   animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
