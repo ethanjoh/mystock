@@ -917,3 +917,86 @@ body {
   }
 }
 
+/* Exchange Rate Bar Styles */
+.exchange-rate-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  padding: 0.75rem 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.rate-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.rate-flag-icon {
+  font-size: 1.1rem;
+}
+
+.rate-label {
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.rate-values {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.rate-price {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.rate-change {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.rate-divider {
+  width: 1px;
+  height: 16px;
+  background-color: var(--border-color);
+}
+
+.rate-loading,
+.rate-error {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+  .exchange-rate-bar {
+    gap: 1.5rem;
+    padding: 0.65rem 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .exchange-rate-bar {
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    align-items: stretch;
+  }
+
+  .rate-item {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .rate-divider {
+    display: none;
+  }
+}
+
+

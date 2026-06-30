@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { StockChart } from './components/StockChart';
 import { SearchBar } from './components/SearchBar';
+import { ExchangeRateBar } from './components/ExchangeRateBar';
 import { LineChart, Briefcase, Cloud, LogOut, User } from 'lucide-react';
 import { PortfolioModal } from './components/PortfolioModal';
 import { LoginModal } from './components/LoginModal';
@@ -198,6 +199,8 @@ const App: React.FC = () => {
           )}
         </div>
       </header>
+
+      <ExchangeRateBar />
 
       <SearchBar onAddTicker={handleAddTicker} />
 
