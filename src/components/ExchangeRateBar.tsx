@@ -3,7 +3,11 @@ import React from 'react';
 import { useRealStockData } from '../hooks/useRealStockData';
 import { TrendingUp, TrendingDown } from 'lucide-react';
 
-export const ExchangeRateBar: React.FC = () => {
+interface ExchangeRateBarProps {
+  onRateClick: (ticker: string, title: string) => void;
+}
+
+export const ExchangeRateBar: React.FC<ExchangeRateBarProps> = ({ onRateClick }) => {
   const usd = useRealStockData('USDKRW=X', '1d');
   const jpy = useRealStockData('JPYKRW=X', '1d');
 
@@ -25,7 +29,7 @@ export const ExchangeRateBar: React.FC = () => {
 
   return (
     <div className="exchange-rate-bar glass">
-      <div className="rate-item">
+      <div className="rate-item" onClick={() => onRateClick('USDKRW=X', '원/달러 (USD/KRW)')}>
         <span className="rate-flag-icon">💵</span>
         <span className="rate-label">원/달러 (USD/KRW)</span>
         {usd.loading ? (
@@ -51,7 +55,7 @@ export const ExchangeRateBar: React.FC = () => {
 
       <div className="rate-divider"></div>
 
-      <div className="rate-item">
+      <div className="rate-item" onClick={() => onRateClick('JPYKRW=X', '원/100엔 (JPY/KRW)')}>
         <span className="rate-flag-icon">💴</span>
         <span className="rate-label">원/100엔 (JPY/KRW)</span>
         {jpy.loading ? (

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { StockChart } from './components/StockChart';
 import { SearchBar } from './components/SearchBar';
 import { ExchangeRateBar } from './components/ExchangeRateBar';
-import { LineChart, Briefcase, Cloud, LogOut, User } from 'lucide-react';
+import { LineChart, Briefcase, Cloud, LogOut, User, X } from 'lucide-react';
 import { PortfolioModal } from './components/PortfolioModal';
 import { LoginModal } from './components/LoginModal';
 import { useFirebaseSync } from './hooks/useFirebaseSync';
@@ -20,6 +20,7 @@ const App: React.FC = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [selectedExchangeRate, setSelectedExchangeRate] = useState<{ ticker: string; title: string } | null>(null);
 
   const {
     accessToken,
@@ -200,7 +201,7 @@ const App: React.FC = () => {
         </div>
       </header>
 
-      <ExchangeRateBar />
+      <ExchangeRateBar onRateClick={(ticker, title) => setSelectedExchangeRate({ ticker, title })} />
 
       <SearchBar onAddTicker={handleAddTicker} />
 
@@ -247,6 +248,26 @@ const App: React.FC = () => {
           onClose={() => setIsLoginModalOpen(false)}
           onLogin={googleLogin}
         />
+      )}
+
+      {selectedExchangeRate && (
+        <div className="modal-backdrop" onClick={() => setSelectedExchangeRate(null)}>
+          <div className="modal-content exchange-rate-modal" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '750px', height: '600px' }}>
+            <button className="modal-close-btn" onClick={() => setSelectedExchangeRate(null)} aria-label="Close modal">
+              <X size={20} />
+            </button>
+            <div className="modal-header">
+              <h2>{selectedExchangeRate.title} 상세 차트</h2>
+            </div>
+            <div className="modal-body" style={{ flex: 1, minHeight: 0, marginTop: '1rem' }}>
+              <StockChart
+                ticker={selectedExchangeRate.ticker}
+                title={selectedExchangeRate.title}
+                color="var(--accent-color)"
+              />
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

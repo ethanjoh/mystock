@@ -932,6 +932,19 @@ body {
   align-items: center;
   gap: 0.75rem;
   font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0.35rem 0.75rem;
+  border-radius: 8px;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.rate-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-1px);
+}
+
+.rate-item:active {
+  transform: translateY(0);
 }
 
 .rate-flag-icon {
@@ -998,5 +1011,21 @@ body {
     display: none;
   }
 }
+
+/* Exchange Rate Modal Customization */
+.exchange-rate-modal .chart-card {
+  background: transparent;
+  border: none;
+  backdrop-filter: none;
+  box-shadow: none;
+  height: 100%;
+  padding: 0;
+}
+
+.exchange-rate-modal .chart-card:hover {
+  transform: none;
+  box-shadow: none;
+}
+
 
 
