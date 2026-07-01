@@ -74,12 +74,27 @@ export const StockChart: React.FC<StockChartProps> = ({
   const { data, currentValue, change, loading, error, companyName } = useRealStockData(ticker, selectedRange);
   const isKoreanMarketOrFX = ticker.endsWith('.KS') || ticker.endsWith('.KQ') || ticker === '^KS11' || ticker === '^KQ11' || ticker.includes('KRW');
   
-  const isPositive = change >= 0;
-  const changePercentage = currentValue !== 0 ? (change / (currentValue - change)) * 100 : 0;
+  // JPY/KRW 환율일 경우 100배 스케일링 (100엔당 원화 가격으로 표시하기 위함)
+  const isJpy = ticker === 'JPYKRW=X';
+  const displayCurrentValue = isJpy ? currentValue * 100 : currentValue;
+  const displayChange = isJpy ? change * 100 : change;
+  const displayData = isJpy
+    ? data.map(d => ({
+        ...d,
+        value: d.value * 100,
+        open: d.open * 100,
+        high: d.high * 100,
+        low: d.low * 100,
+        close: d.close * 100
+      }))
+    : data;
+
+  const isPositive = displayChange >= 0;
+  const changePercentage = displayCurrentValue !== 0 ? (displayChange / (displayCurrentValue - displayChange)) * 100 : 0;
 
   // Determine domain for Y axis to make chart look better
-  const minVal = data.length > 0 ? Math.min(...data.map(d => d.low)) : 0;
-  const maxVal = data.length > 0 ? Math.max(...data.map(d => d.high)) : 100;
+  const minVal = displayData.length > 0 ? Math.min(...displayData.map(d => d.low)) : 0;
+  const maxVal = displayData.length > 0 ? Math.max(...displayData.map(d => d.high)) : 100;
   const padding = (maxVal - minVal) * 0.1 || 10;
 
   const ranges: TimeRange[] = ['5y', '3y', '1y', '6mo', '1mo', '1w', '1d', '1h'];
@@ -94,7 +109,7 @@ export const StockChart: React.FC<StockChartProps> = ({
   };
 
   // Map data to range format that Recharts understands for custom bar positioning
-  const chartData = data.map(d => ({
+  const chartData = displayData.map(d => ({
     ...d,
     openClose: [Math.min(d.open, d.close), Math.max(d.open, d.close)],
     highLow: [d.low, d.high]
@@ -120,7 +135,7 @@ export const StockChart: React.FC<StockChartProps> = ({
           </h2>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '4px', flexWrap: 'wrap' }}>
             <div className="chart-value">
-              {loading ? '---' : currentValue.toLocaleString(undefined, isKoreanMarketOrFX ? { maximumFractionDigits: 0 } : { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              {loading ? '---' : displayCurrentValue.toLocaleString(undefined, isKoreanMarketOrFX ? { maximumFractionDigits: 0 } : { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </div>
             {onAddToPortfolio && !loading && !error && (
               isInPortfolio ? (
@@ -149,7 +164,7 @@ export const StockChart: React.FC<StockChartProps> = ({
             <div className={`chart-change ${isPositive ? 'change-positive' : 'change-negative'}`}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                 {isPositive ? <TrendingUp size={20} /> : <TrendingDown size={20} />}
-                <span>{isPositive ? '+' : ''}{change.toFixed(isKoreanMarketOrFX ? 0 : 2)} ({isPositive ? '+' : ''}{changePercentage.toFixed(2)}%)</span>
+                <span>{isPositive ? '+' : ''}{displayChange.toFixed(isKoreanMarketOrFX ? 0 : 2)} ({isPositive ? '+' : ''}{changePercentage.toFixed(2)}%)</span>
               </div>
             </div>
           )}
