@@ -1,0 +1,10 @@
+E:\개인_백업\www\my-stock\.github\workflows\deploy.yml
+E:\개인_백업\www\my-stock\CHANGELOG.md
+E:\개인_백업\www\my-stock\README.md
+E:\개인_백업\www\my-stock\index.html
+E:\개인_백업\www\my-stock\public\favicon.svg
+E:\개인_백업\www\my-stock\public\icons.svg
+E:\개인_백업\www\my-stock\public\screenshot.png
+E:\개인_백업\www\my-stock\src\assets\hero.png
+E:\개인_백업\www\my-stock\src\assets\react.svg
+E:\개인_백업\www\my-stock\src\assets\vite.svg
