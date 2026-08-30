@@ -61,7 +61,7 @@
   * **Cloud Firestore**: 관심종목, 포트폴리오 백업 데이터 저장 및 사용자 활동 실시간 로깅.
 * **Yahoo Finance API**: 주식/지수/환율 실시간 및 역사 데이터 공급.
   * 개발 환경: Vite의 로컬 개발 서버 `proxy` 설정을 이용한 CORS 회피.
-  * 프로덕션 환경: `corsproxy.io` 프록시 터널을 통한 실시간 API 요청 처리.
+  * 프로덕션 환경: `proxy.cors.sh` 프록시 터널을 통한 실시간 API 요청 처리.
 
 ---
 

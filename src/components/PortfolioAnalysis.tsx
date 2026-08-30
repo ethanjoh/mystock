@@ -29,7 +29,7 @@ export const PortfolioAnalysis: React.FC<PortfolioAnalysisProps> = ({
     const isDev = import.meta.env.DEV;
     const baseUrl = isDev 
       ? '/api/finance' 
-      : 'https://corsproxy.io/?https://query1.finance.yahoo.com/v8/finance';
+      : 'https://proxy.cors.sh/https://query1.finance.yahoo.com/v8/finance';
 
     const response = await fetch(`${baseUrl}/chart/${encodeURIComponent(ticker)}?interval=1wk&range=10y`);
     if (!response.ok) {
