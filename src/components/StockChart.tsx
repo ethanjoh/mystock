@@ -71,7 +71,7 @@ export const StockChart: React.FC<StockChartProps> = ({
 }) => {
   const [selectedRange, setSelectedRange] = useState<TimeRange>('5y');
   const [chartType, setChartType] = useState<'line' | 'candle'>('line');
-  const { data, currentValue, change, loading, error, companyName } = useRealStockData(ticker, selectedRange);
+  const { data, currentValue, change, loading, error, companyName, isOffline } = useRealStockData(ticker, selectedRange);
   const isKoreanMarketOrFX = ticker.endsWith('.KS') || ticker.endsWith('.KQ') || ticker === '^KS11' || ticker === '^KQ11' || ticker.includes('KRW');
   
   // JPY/KRW 환율일 경우 100배 스케일링 (100엔당 원화 가격으로 표시하기 위함)
@@ -132,6 +132,22 @@ export const StockChart: React.FC<StockChartProps> = ({
             <span className="ticker-label" style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginLeft: '6px', fontWeight: 'normal' }}>
               ({ticker})
             </span>
+            {isOffline && (
+              <span 
+                style={{ 
+                  fontSize: '0.7rem', 
+                  backgroundColor: 'rgba(234, 179, 8, 0.15)', 
+                  color: '#eab308', 
+                  padding: '2px 6px', 
+                  borderRadius: '4px', 
+                  marginLeft: '6px',
+                  fontWeight: '500'
+                }}
+                title="실시간 프록시 연결 불가로 시뮬레이션 데이터를 표시 중입니다."
+              >
+                오프라인 모드
+              </span>
+            )}
           </h2>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '4px', flexWrap: 'wrap' }}>
             <div className="chart-value">

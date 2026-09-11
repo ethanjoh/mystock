@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { fetchWithProxyFallback, generateOfflineData } from '../utils/apiProxy';
 
 export type TimeRange = '5y' | '3y' | '1y' | '6mo' | '1mo' | '1w' | '1d' | '1h';
 
@@ -18,6 +19,7 @@ export const useRealStockData = (ticker: string, range: TimeRange = '5y') => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [companyName, setCompanyName] = useState('');
+  const [isOffline, setIsOffline] = useState(false);
 
   // Map logical range to Yahoo Finance parameters
   const getParams = () => {
@@ -72,19 +74,9 @@ export const useRealStockData = (ticker: string, range: TimeRange = '5y') => {
   const fetchData = async () => {
     try {
       const { apiRange, apiInterval, sliceCount } = getParams();
-      
-      const isDev = import.meta.env.DEV;
-      const baseUrl = isDev 
-        ? '/api/finance' 
-        : 'https://proxy.cors.sh/https://query1.finance.yahoo.com/v8/finance';
+      const queryParams = `interval=${apiInterval}&range=${apiRange}`;
 
-      const response = await fetch(
-        `${baseUrl}/chart/${encodeURIComponent(ticker)}?interval=${apiInterval}&range=${apiRange}`
-      );
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const json = await response.json();
+      const json = await fetchWithProxyFallback(ticker, queryParams);
       
       if (json.chart?.error) {
         throw new Error(json.chart.error.description || 'Unknown API error');
@@ -165,10 +157,18 @@ export const useRealStockData = (ticker: string, range: TimeRange = '5y') => {
         setData([]);
       }
       
+      setIsOffline(false);
       setError(null);
     } catch (err: any) {
-      console.error(`Error fetching data for ${ticker}:`, err);
-      setError(err.message || 'Failed to fetch data');
+      console.warn(`Real API fetch failed for ${ticker}, using offline simulation data:`, err.message);
+      // Fallback to offline simulation data to prevent UI from completely breaking
+      const offline = generateOfflineData(ticker, range);
+      setCompanyName(offline.name);
+      setData(offline.data);
+      setCurrentValue(offline.currentValue);
+      setChange(offline.change);
+      setIsOffline(true);
+      setError(null);
     } finally {
       setLoading(false);
     }
@@ -185,5 +185,5 @@ export const useRealStockData = (ticker: string, range: TimeRange = '5y') => {
     return () => clearInterval(intervalId);
   }, [ticker, range]); // Refetch when ticker or range changes
 
-  return { data, currentValue, change, loading, error, companyName };
+  return { data, currentValue, change, loading, error, companyName, isOffline };
 };

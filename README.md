@@ -59,9 +59,10 @@
 * **Firebase (SDK 12.15.0)**:
   * **Firebase Authentication**: Google OAuth 소셜 로그인 구현.
   * **Cloud Firestore**: 관심종목, 포트폴리오 백업 데이터 저장 및 사용자 활동 실시간 로깅.
-* **Yahoo Finance API**: 주식/지수/환율 실시간 및 역사 데이터 공급.
+* **Yahoo Finance API & 환율 데이터**: 주식/지수/환율 실시간 및 역사 데이터 공급.
   * 개발 환경: Vite의 로컬 개발 서버 `proxy` 설정을 이용한 CORS 회피.
-  * 프로덕션 환경: `proxy.cors.sh` 프록시 터널을 통한 실시간 API 요청 처리.
+  * 프로덕션 환경: 프록시 다중 대체 체인(Fallback chain) 및 오프라인 시뮬레이션 모드 지원. 사용자 자체 Cloudflare Worker 또는 프록시 URL(`VITE_FINANCE_PROXY_URL`) 설정 지원.
+  * 환율 데이터: Open Exchange Rates 공개 엔드포인트를 1차 안정적 소스로 활용하여 환율 표시 무중단 보장.
 
 ---
 

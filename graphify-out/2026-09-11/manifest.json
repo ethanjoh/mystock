@@ -15,9 +15,9 @@
     "semantic_hash": "5aca902eb40ea0c349d22f8fe54b3bb9"
   },
   "src/components/ExchangeRateBar.tsx": {
-    "mtime": 1789117501.9562745,
-    "ast_hash": "910e1609924462d12c0a8e7de7c70c06",
-    "semantic_hash": ""
+    "mtime": 1782832958.0,
+    "ast_hash": "c0ef67f404c1298b2cf14bafece263e7",
+    "semantic_hash": "c0ef67f404c1298b2cf14bafece263e7"
   },
   "src/components/LoginModal.tsx": {
     "mtime": 1782378271.0,
@@ -25,8 +25,8 @@
     "semantic_hash": "2e3feee34468258fc163fa9ff5c7d5a3"
   },
   "src/components/PortfolioAnalysis.tsx": {
-    "mtime": 1789117689.9881053,
-    "ast_hash": "9e774e45d2424619654ea49be151c2a6",
+    "mtime": 1788095769.8266072,
+    "ast_hash": "d63d8219a6a947891d99c81dfddc1215",
     "semantic_hash": ""
   },
   "src/components/PortfolioModal.tsx": {
@@ -40,9 +40,9 @@
     "semantic_hash": "8817c2bd354c071f5e50b1cbbb2fd40c"
   },
   "src/components/StockChart.tsx": {
-    "mtime": 1789117682.104688,
-    "ast_hash": "96a4c55ff1456bb3927db3ecee367ce4",
-    "semantic_hash": ""
+    "mtime": 1782882265.0,
+    "ast_hash": "0f4305904d5e7bf4eb1140cc2f0ef634",
+    "semantic_hash": "0f4305904d5e7bf4eb1140cc2f0ef634"
   },
   "src/firebase.ts": {
     "mtime": 1782378206.0,
@@ -55,8 +55,8 @@
     "semantic_hash": "9fc51fd4b10d77061f004f220e299621"
   },
   "src/hooks/useRealStockData.ts": {
-    "mtime": 1789117673.5995412,
-    "ast_hash": "1cad8c2dda434fc59b9dcde1f57dd898",
+    "mtime": 1788095766.3008995,
+    "ast_hash": "aeef95956a6e93d6255b76addd489c05",
     "semantic_hash": ""
   },
   "src/hooks/useSimulatedStockData.ts": {
@@ -95,13 +95,13 @@
     "semantic_hash": "b4068ff3494c47e9dde1fef718efac4a"
   },
   "CHANGELOG.md": {
-    "mtime": 1788161439.2927885,
-    "ast_hash": "90ef50b6fda729d2a50cf9e0c9a21ba9",
+    "mtime": 1788095834.3800166,
+    "ast_hash": "8358aea40fcee591aad45d05801fd15f",
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1789117696.2746482,
-    "ast_hash": "ad229e8986940000d0c1ceb9710afbb8",
+    "mtime": 1788095773.5572493,
+    "ast_hash": "3bcbf81bea2b92b90cdaa738a99588f1",
     "semantic_hash": ""
   },
   "index.html": {
@@ -152,11 +152,6 @@
   ".agents/workflows/graphify.md": {
     "mtime": 1783232007.913269,
     "ast_hash": "637776aa6f7496d069afe7520c845c8a",
-    "semantic_hash": ""
-  },
-  "src/utils/apiProxy.ts": {
-    "mtime": 1789117627.5627363,
-    "ast_hash": "dbf0c45e30ddbc67fff1a82a4d6a4ae4",
     "semantic_hash": ""
   }
 }
