@@ -14,16 +14,37 @@ const DEFAULT_INDEX_INFO: Record<string, FallbackStockInfo> = {
   'JPYKRW=X': { name: '원/엔 환율', basePrice: 8.75 },
 };
 
+// 인메모리 요청 캐시 (동일 티커/파라미터 중복 호출 및 과도한 프록시 부하 방지)
+interface CacheEntry {
+  expiresAt: number;
+  data: any;
+}
+const apiCache = new Map<string, CacheEntry>();
+
+function getCacheTtlMs(queryParams: string): number {
+  if (queryParams.includes('range=1d') || queryParams.includes('range=1h')) {
+    return 15 * 1000; // 15초
+  }
+  if (queryParams.includes('range=1w')) {
+    return 60 * 1000; // 1분
+  }
+  return 180 * 1000; // 3분
+}
+
 /**
  * 환경 설정에 따라 금융 데이터를 페치할 프록시 URL 목록을 생성합니다.
  */
 export function getProxyCandidateUrls(ticker: string, queryParams: string): string[] {
   const isDev = import.meta.env.DEV;
   const targetPath = `chart/${encodeURIComponent(ticker)}?${queryParams}`;
-  const targetFullUrl = `https://query1.finance.yahoo.com/v8/finance/${targetPath}`;
+  const targetFullUrl1 = `https://query1.finance.yahoo.com/v8/finance/${targetPath}`;
+  const targetFullUrl2 = `https://query2.finance.yahoo.com/v8/finance/${targetPath}`;
 
   if (isDev) {
-    return [`/api/finance/${targetPath}`];
+    return [
+      `/api/finance/${targetPath}`,
+      `/mystock/api/finance/${targetPath}`
+    ];
   }
 
   // 사용자가 자체 Cloudflare Worker 또는 프록시를 설정한 경우 최우선 사용
@@ -31,19 +52,30 @@ export function getProxyCandidateUrls(ticker: string, queryParams: string): stri
   if (customProxy) {
     const trimmed = customProxy.trim();
     if (trimmed.endsWith('=')) {
-      return [`${trimmed}${encodeURIComponent(targetFullUrl)}`];
+      return [
+        `${trimmed}${encodeURIComponent(targetFullUrl1)}`,
+        `${trimmed}${encodeURIComponent(targetFullUrl2)}`
+      ];
     }
     if (trimmed.endsWith('/')) {
-      return [`${trimmed}${targetFullUrl}`];
+      return [
+        `${trimmed}${targetFullUrl1}`,
+        `${trimmed}${targetFullUrl2}`
+      ];
     }
-    return [`${trimmed}/${targetFullUrl}`];
+    return [
+      `${trimmed}/${targetFullUrl1}`,
+      `${trimmed}/${targetFullUrl2}`
+    ];
   }
 
-  // 브라우저 프로덕션 환경의 대체 공용 프록시 체인
+  // 브라우저 프로덕션 환경의 실질적으로 작동하는 공용 프록시 체인
   return [
-    `https://corsproxy.org/?${encodeURIComponent(targetFullUrl)}`,
-    `https://cors.eu.org/${targetFullUrl}`,
-    `https://api.allorigins.win/raw?url=${encodeURIComponent(targetFullUrl)}`
+    `https://api.allorigins.win/get?url=${encodeURIComponent(targetFullUrl1)}`,
+    `https://api.allorigins.win/raw?url=${encodeURIComponent(targetFullUrl1)}`,
+    `https://api.allorigins.win/get?url=${encodeURIComponent(targetFullUrl2)}`,
+    `https://api.allorigins.win/raw?url=${encodeURIComponent(targetFullUrl2)}`,
+    `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetFullUrl1)}`
   ];
 }
 
@@ -51,13 +83,20 @@ export function getProxyCandidateUrls(ticker: string, queryParams: string): stri
  * 프록시를 순회하며 데이터를 페치합니다.
  */
 export async function fetchWithProxyFallback(ticker: string, queryParams: string): Promise<any> {
+  const cacheKey = `${ticker}:${queryParams}`;
+  const now = Date.now();
+  const cached = apiCache.get(cacheKey);
+  if (cached && cached.expiresAt > now) {
+    return cached.data;
+  }
+
   const urls = getProxyCandidateUrls(ticker, queryParams);
   let lastError: Error | null = null;
 
   for (const url of urls) {
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 6000);
+      const timeoutId = setTimeout(() => controller.abort(), 8000);
       
       const response = await fetch(url, {
         signal: controller.signal,
@@ -71,9 +110,32 @@ export async function fetchWithProxyFallback(ticker: string, queryParams: string
         throw new Error(`HTTP status ${response.status}`);
       }
 
-      const json = await response.json();
-      if (json.chart?.result?.[0]) {
-        return json;
+      const text = await response.text();
+      const trimmed = text.trim();
+      
+      // HTML 응답(광고, 404/403 페이지 등) 차단
+      if (trimmed.startsWith('<') || trimmed.toLowerCase().startsWith('<!doctype')) {
+        throw new Error('Received HTML instead of JSON');
+      }
+
+      let parsed = JSON.parse(trimmed);
+
+      // allorigins.win/get wrapper 지원 (contents에 문자열로 들어있음)
+      if (parsed.contents && typeof parsed.contents === 'string') {
+        parsed = JSON.parse(parsed.contents);
+      }
+
+      if (parsed.chart?.result?.[0]) {
+        // 성공 시 캐시 저장
+        apiCache.set(cacheKey, {
+          expiresAt: now + getCacheTtlMs(queryParams),
+          data: parsed
+        });
+        return parsed;
+      }
+
+      if (parsed.chart?.error) {
+        throw new Error(parsed.chart.error.description || 'Yahoo Finance API returned error');
       }
     } catch (err: any) {
       lastError = err;

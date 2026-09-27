@@ -15,8 +15,8 @@
     "semantic_hash": "5aca902eb40ea0c349d22f8fe54b3bb9"
   },
   "src/components/ExchangeRateBar.tsx": {
-    "mtime": 1790484323.7289793,
-    "ast_hash": "59898a65a05ea624283f00d02cbbf549",
+    "mtime": 1789117501.9562745,
+    "ast_hash": "910e1609924462d12c0a8e7de7c70c06",
     "semantic_hash": ""
   },
   "src/components/LoginModal.tsx": {
@@ -85,8 +85,8 @@
     "semantic_hash": "70bdd0a673bcfc0e828080b306e7c680"
   },
   "vite.config.ts": {
-    "mtime": 1790484331.4320676,
-    "ast_hash": "f0af5a75e618d9844c2f186fc5939ceb",
+    "mtime": 1788095760.2209668,
+    "ast_hash": "e44138aba6b9e901ec824f204f0c4080",
     "semantic_hash": ""
   },
   ".github/workflows/deploy.yml": {
@@ -95,8 +95,8 @@
     "semantic_hash": "b4068ff3494c47e9dde1fef718efac4a"
   },
   "CHANGELOG.md": {
-    "mtime": 1790484779.7139332,
-    "ast_hash": "ec327f3b35b8a46daf5f413abb23eb00",
+    "mtime": 1788161439.2927885,
+    "ast_hash": "90ef50b6fda729d2a50cf9e0c9a21ba9",
     "semantic_hash": ""
   },
   "README.md": {
@@ -155,8 +155,8 @@
     "semantic_hash": ""
   },
   "src/utils/apiProxy.ts": {
-    "mtime": 1790484425.7417774,
-    "ast_hash": "eb33eeef96e4e7c1eb2bb11e23b93e96",
+    "mtime": 1789117627.5627363,
+    "ast_hash": "dbf0c45e30ddbc67fff1a82a4d6a4ae4",
     "semantic_hash": ""
   }
 }

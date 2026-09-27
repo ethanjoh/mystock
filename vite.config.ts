@@ -7,10 +7,10 @@ export default defineConfig({
   base: '/mystock/',
   server: {
     proxy: {
-      '/api/finance': {
+      '^/(mystock/)?api/finance': {
         target: 'https://query1.finance.yahoo.com/v8/finance',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\/finance/, ''),
+        rewrite: (path) => path.replace(/^(\/mystock)?\/api\/finance/, ''),
         headers: {
           'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
         }

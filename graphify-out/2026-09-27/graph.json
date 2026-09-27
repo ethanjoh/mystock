@@ -605,8 +605,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_app",
-      "community": 2,
-      "community_name": "Stock Data & UI Components",
+      "community": 4,
+      "community_name": "Firebase Sync & Dependencies",
       "norm_label": "app.tsx"
     },
     {
@@ -616,8 +616,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "src_app_app",
-      "community": 2,
-      "community_name": "Stock Data & UI Components",
+      "community": 4,
+      "community_name": "Firebase Sync & Dependencies",
       "norm_label": "app()"
     },
     {
@@ -660,8 +660,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_loginmodal",
-      "community": 2,
-      "community_name": "Stock Data & UI Components",
+      "community": 4,
+      "community_name": "Firebase Sync & Dependencies",
       "norm_label": "loginmodal.tsx"
     },
     {
@@ -671,8 +671,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "src_components_loginmodal_loginmodalprops",
-      "community": 2,
-      "community_name": "Stock Data & UI Components",
+      "community": 4,
+      "community_name": "Firebase Sync & Dependencies",
       "norm_label": "loginmodalprops"
     },
     {
@@ -682,8 +682,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "src_components_loginmodal_loginmodal",
-      "community": 2,
-      "community_name": "Stock Data & UI Components",
+      "community": 4,
+      "community_name": "Firebase Sync & Dependencies",
       "norm_label": "loginmodal()"
     },
     {
@@ -693,8 +693,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_portfolioanalysis",
-      "community": 7,
-      "community_name": "apiProxy.ts",
+      "community": 2,
+      "community_name": "Stock Data & UI Components",
       "norm_label": "portfolioanalysis.tsx"
     },
     {
@@ -704,8 +704,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "src_components_portfolioanalysis_portfolioanalysisprops",
-      "community": 7,
-      "community_name": "apiProxy.ts",
+      "community": 2,
+      "community_name": "Stock Data & UI Components",
       "norm_label": "portfolioanalysisprops"
     },
     {
@@ -715,8 +715,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "src_components_portfolioanalysis_backtrackpoint",
-      "community": 7,
-      "community_name": "apiProxy.ts",
+      "community": 2,
+      "community_name": "Stock Data & UI Components",
       "norm_label": "backtrackpoint"
     },
     {
@@ -726,8 +726,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "src_components_portfolioanalysis_simulationrange",
-      "community": 7,
-      "community_name": "apiProxy.ts",
+      "community": 2,
+      "community_name": "Stock Data & UI Components",
       "norm_label": "simulationrange"
     },
     {
@@ -737,8 +737,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "src_components_portfolioanalysis_portfolioanalysis",
-      "community": 7,
-      "community_name": "apiProxy.ts",
+      "community": 2,
+      "community_name": "Stock Data & UI Components",
       "norm_label": "portfolioanalysis()"
     },
     {
@@ -803,8 +803,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_components_searchbar",
-      "community": 2,
-      "community_name": "Stock Data & UI Components",
+      "community": 4,
+      "community_name": "Firebase Sync & Dependencies",
       "norm_label": "searchbar.tsx"
     },
     {
@@ -814,8 +814,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "src_components_searchbar_searchbarprops",
-      "community": 2,
-      "community_name": "Stock Data & UI Components",
+      "community": 4,
+      "community_name": "Firebase Sync & Dependencies",
       "norm_label": "searchbarprops"
     },
     {
@@ -825,8 +825,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "src_components_searchbar_searchbar",
-      "community": 2,
-      "community_name": "Stock Data & UI Components",
+      "community": 4,
+      "community_name": "Firebase Sync & Dependencies",
       "norm_label": "searchbar()"
     },
     {
@@ -946,8 +946,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "src_hooks_usefirebasesync_usefirebasesync",
-      "community": 2,
-      "community_name": "Stock Data & UI Components",
+      "community": 4,
+      "community_name": "Firebase Sync & Dependencies",
       "norm_label": "usefirebasesync()"
     },
     {
@@ -1034,8 +1034,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_main",
-      "community": 2,
-      "community_name": "Stock Data & UI Components",
+      "community": 4,
+      "community_name": "Firebase Sync & Dependencies",
       "norm_label": "main.tsx"
     },
     {
@@ -1045,8 +1045,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_utils_apiproxy",
-      "community": 7,
-      "community_name": "apiProxy.ts",
+      "community": 2,
+      "community_name": "Stock Data & UI Components",
       "norm_label": "apiproxy.ts"
     },
     {
@@ -1056,8 +1056,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "src_utils_apiproxy_fallbackstockinfo",
-      "community": 7,
-      "community_name": "apiProxy.ts",
+      "community": 2,
+      "community_name": "Stock Data & UI Components",
       "norm_label": "fallbackstockinfo"
     },
     {
@@ -1067,70 +1067,37 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "src_utils_apiproxy_default_index_info",
-      "community": 7,
-      "community_name": "apiProxy.ts",
+      "community": 2,
+      "community_name": "Stock Data & UI Components",
       "norm_label": "default_index_info"
-    },
-    {
-      "label": "CacheEntry",
-      "file_type": "code",
-      "source_file": "src/utils/apiProxy.ts",
-      "source_location": "L18",
-      "_origin": "ast",
-      "id": "src_utils_apiproxy_cacheentry",
-      "community": 7,
-      "community_name": "apiProxy.ts",
-      "norm_label": "cacheentry"
-    },
-    {
-      "label": "apiCache",
-      "file_type": "code",
-      "source_file": "src/utils/apiProxy.ts",
-      "source_location": "L22",
-      "_origin": "ast",
-      "id": "src_utils_apiproxy_apicache",
-      "community": 7,
-      "community_name": "apiProxy.ts",
-      "norm_label": "apicache"
-    },
-    {
-      "label": "getCacheTtlMs()",
-      "file_type": "code",
-      "source_file": "src/utils/apiProxy.ts",
-      "source_location": "L24",
-      "_origin": "ast",
-      "id": "src_utils_apiproxy_getcachettlms",
-      "community": 7,
-      "community_name": "apiProxy.ts",
-      "norm_label": "getcachettlms()"
     },
     {
       "label": "getProxyCandidateUrls()",
       "file_type": "code",
       "source_file": "src/utils/apiProxy.ts",
-      "source_location": "L37",
+      "source_location": "L20",
       "_origin": "ast",
       "id": "src_utils_apiproxy_getproxycandidateurls",
-      "community": 7,
-      "community_name": "apiProxy.ts",
+      "community": 2,
+      "community_name": "Stock Data & UI Components",
       "norm_label": "getproxycandidateurls()"
     },
     {
       "label": "fetchWithProxyFallback()",
       "file_type": "code",
       "source_file": "src/utils/apiProxy.ts",
-      "source_location": "L85",
+      "source_location": "L53",
       "_origin": "ast",
       "id": "src_utils_apiproxy_fetchwithproxyfallback",
-      "community": 7,
-      "community_name": "apiProxy.ts",
+      "community": 2,
+      "community_name": "Stock Data & UI Components",
       "norm_label": "fetchwithproxyfallback()"
     },
     {
       "label": "generateOfflineData()",
       "file_type": "code",
       "source_file": "src/utils/apiProxy.ts",
-      "source_location": "L151",
+      "source_location": "L89",
       "_origin": "ast",
       "id": "src_utils_apiproxy_generateofflinedata",
       "community": 2,
@@ -1732,32 +1699,10 @@
       "norm_label": "changelog"
     },
     {
-      "label": "[v0.3.1] - 2026-09-27",
-      "file_type": "document",
-      "source_file": "CHANGELOG.md",
-      "source_location": "L7",
-      "_origin": "ast",
-      "id": "changelog_v0_3_1_2026_09_27",
-      "community": 11,
-      "community_name": "Readme Documentation",
-      "norm_label": "[v0.3.1] - 2026-09-27"
-    },
-    {
-      "label": "[v0.3.0] - 2026-09-11",
-      "file_type": "document",
-      "source_file": "CHANGELOG.md",
-      "source_location": "L23",
-      "_origin": "ast",
-      "id": "changelog_v0_3_0_2026_09_11",
-      "community": 11,
-      "community_name": "Readme Documentation",
-      "norm_label": "[v0.3.0] - 2026-09-11"
-    },
-    {
       "label": "[v0.0.0](https://github.com/ethanjoh/mystock/compare/v0.2...v0.0.0)",
       "file_type": "document",
       "source_file": "CHANGELOG.md",
-      "source_location": "L42",
+      "source_location": "L7",
       "_origin": "ast",
       "id": "changelog_v0_0_0_https_github_com_ethanjoh_mystock_compare_v0_2_v0_0_0",
       "community": 11,
@@ -1768,7 +1713,7 @@
       "label": "[v0.2](https://github.com/ethanjoh/mystock/compare/v0.1...v0.2)",
       "file_type": "document",
       "source_file": "CHANGELOG.md",
-      "source_location": "L48",
+      "source_location": "L13",
       "_origin": "ast",
       "id": "changelog_v0_2_https_github_com_ethanjoh_mystock_compare_v0_1_v0_2",
       "community": 11,
@@ -1779,7 +1724,7 @@
       "label": "v0.1",
       "file_type": "document",
       "source_file": "CHANGELOG.md",
-      "source_location": "L56",
+      "source_location": "L21",
       "_origin": "ast",
       "id": "changelog_v0_1",
       "community": 11,
@@ -3365,28 +3310,6 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/utils/apiProxy.ts",
-      "source_location": "L22",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_utils_apiproxy",
-      "target": "src_utils_apiproxy_apicache",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/utils/apiProxy.ts",
-      "source_location": "L18",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_utils_apiproxy",
-      "target": "src_utils_apiproxy_cacheentry",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/utils/apiProxy.ts",
       "source_location": "L8",
       "weight": 1.0,
       "_origin": "ast",
@@ -3409,7 +3332,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/utils/apiProxy.ts",
-      "source_location": "L85",
+      "source_location": "L53",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_utils_apiproxy",
@@ -3420,7 +3343,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/utils/apiProxy.ts",
-      "source_location": "L151",
+      "source_location": "L89",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_utils_apiproxy",
@@ -3431,18 +3354,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/utils/apiProxy.ts",
-      "source_location": "L24",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_utils_apiproxy",
-      "target": "src_utils_apiproxy_getcachettlms",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/utils/apiProxy.ts",
-      "source_location": "L37",
+      "source_location": "L20",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_utils_apiproxy",
@@ -3454,19 +3366,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/utils/apiProxy.ts",
-      "source_location": "L131",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "src_utils_apiproxy_fetchwithproxyfallback",
-      "target": "src_utils_apiproxy_getcachettlms",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src/utils/apiProxy.ts",
-      "source_location": "L93",
+      "source_location": "L54",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_utils_apiproxy_fetchwithproxyfallback",
@@ -4001,7 +3901,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "CHANGELOG.md",
-      "source_location": "L42",
+      "source_location": "L7",
       "weight": 1.0,
       "_origin": "ast",
       "source": "changelog_changelog",
@@ -4012,7 +3912,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "CHANGELOG.md",
-      "source_location": "L56",
+      "source_location": "L21",
       "weight": 1.0,
       "_origin": "ast",
       "source": "changelog_changelog",
@@ -4023,33 +3923,11 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "CHANGELOG.md",
-      "source_location": "L48",
+      "source_location": "L13",
       "weight": 1.0,
       "_origin": "ast",
       "source": "changelog_changelog",
       "target": "changelog_v0_2_https_github_com_ethanjoh_mystock_compare_v0_1_v0_2",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "CHANGELOG.md",
-      "source_location": "L23",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "changelog_changelog",
-      "target": "changelog_v0_3_0_2026_09_11",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "CHANGELOG.md",
-      "source_location": "L7",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "changelog_changelog",
-      "target": "changelog_v0_3_1_2026_09_27",
       "confidence_score": 1.0
     },
     {
@@ -4241,5 +4119,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "bc64900d1eb0fe071b292e5b16de22f809b3259f"
+  "built_at_commit": "213259b8ad1f0ed4b1a2e8feb8d9391b9ce8c1a0"
 }

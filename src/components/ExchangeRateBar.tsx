@@ -47,14 +47,14 @@ export const ExchangeRateBar: React.FC<ExchangeRateBarProps> = ({ onRateClick })
     return (change / (current - change)) * 100;
   };
 
-  // Yahoo Finance 데이터 우선 사용, 오류 시 open.er-api 데이터 사용
-  const hasUsdStockData = usd.currentValue > 0 && !usd.error;
+  // Yahoo Finance 실시간 데이터 우선 사용 (오프라인 모드가 아닐 때), 오류 또는 오프라인 시 open.er-api 데이터 사용
+  const hasUsdStockData = usd.currentValue > 0 && !usd.error && !usd.isOffline;
   const usdValue = hasUsdStockData ? usd.currentValue : (erRates?.usd ?? 0);
   const usdChange = hasUsdStockData ? usd.change : 0;
   const usdPercentage = getPercentage(usdValue, usdChange);
   const isUsdPositive = usdChange >= 0;
 
-  const hasJpyStockData = jpy.currentValue > 0 && !jpy.error;
+  const hasJpyStockData = jpy.currentValue > 0 && !jpy.error && !jpy.isOffline;
   const jpyValue = hasJpyStockData ? (jpy.currentValue * 100) : (erRates?.jpy ?? 0);
   const jpyChange = hasJpyStockData ? (jpy.change * 100) : 0;
   const jpyPercentage = getPercentage(jpyValue, jpyChange);
